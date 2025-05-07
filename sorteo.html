@@ -8,21 +8,37 @@
       font-family: Arial, sans-serif;
       text-align: center;
       padding: 50px;
-      background: #f7f7f7;
+      background: #171717 url('img/fondo.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #ffffff;
+    }
+
+    #logo {
+      max-width: 200px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      color: #F35623;
     }
 
     #winner {
       font-size: 40px;
       margin-top: 30px;
-      color: green;
+      color: #F35623;
       min-height: 60px;
     }
 
     #rolling {
       font-size: 30px;
-      color: #444;
+      color: #ffffff;
       margin-top: 20px;
       height: 40px;
+      transition: filter 0.3s;
+    }
+
+    .blur {
+      filter: blur(5px);
     }
 
     button {
@@ -30,21 +46,48 @@
       font-size: 16px;
       margin: 15px;
       cursor: pointer;
+      background-color: #F35623;
+      border: none;
+      color: white;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #d1471e;
+    }
+
+    button:disabled {
+      background-color: #999;
+      cursor: not-allowed;
     }
   </style>
 </head>
 <body>
 
+  <img id="logo" src="img/logo.png" alt="Logo del sorteo">
+
   <h1>Sorteo Aleatorio</h1>
 
-  <button onclick="startRoll()" id="startBtn">🎲 Iniciar Sorteo</button>
-  <button onclick="resetRoll()" id="resetBtn" disabled>🔁 Sortear de Nuevo</button>
+  <button 
+  onclick="startRoll()" 
+  id="startBtn" 
+  style="background-color: #F35623; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
+  🎲 Iniciar Sorteo
+</button>
 
-  <div id="rolling"></div>
+<button 
+  onclick="resetRoll()" 
+  id="resetBtn" 
+  disabled 
+  style="background-color: #F35623; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
+  🔁 Sortear de Nuevo
+</button>
+
+  <div id="rolling" class="blur"></div>
   <div id="winner"></div>
 
   <script>
-    // 🎯 Lista precargada de nombres
     let names = [
       "Laura", "Juan", "María", "Carlos", "Ana", "Pedro", "Lucía", "Martín", "Sofía", "Diego"
     ];
@@ -59,6 +102,7 @@
       document.getElementById('winner').textContent = '';
       document.getElementById('startBtn').disabled = true;
       document.getElementById('resetBtn').disabled = true;
+      document.getElementById('rolling').classList.add('blur');
       rolling = true;
 
       let index = 0;
@@ -67,16 +111,14 @@
         document.getElementById('rolling').textContent = names[index];
       }, 100);
 
-      // Detener el sorteo después de unos segundos
       setTimeout(() => {
         clearInterval(interval);
         const winner = names[index];
         document.getElementById('rolling').textContent = '';
-        document.getElementById('winner').textContent = `🎉 Ganador: ${winner}`;
+        document.getElementById('winner').textContent = `🎉 Ganador/a: ${winner}`;
         usedNames.push(winner);
-
-        // Eliminar ganador de la lista si no quieres que se repita
         names.splice(index, 1);
+        document.getElementById('rolling').classList.remove('blur');
 
         rolling = false;
         if (names.length > 0) {
