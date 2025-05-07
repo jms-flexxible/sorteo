@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Sorteo Rápido</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 50px;
+      background: #f7f7f7;
+    }
+
+    #winner {
+      font-size: 40px;
+      margin-top: 30px;
+      color: green;
+      min-height: 60px;
+    }
+
+    #rolling {
+      font-size: 30px;
+      color: #444;
+      margin-top: 20px;
+      height: 40px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin: 15px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Sorteo Aleatorio</h1>
+
+  <button onclick="startRoll()" id="startBtn">🎲 Iniciar Sorteo</button>
+  <button onclick="resetRoll()" id="resetBtn" disabled>🔁 Sortear de Nuevo</button>
+
+  <div id="rolling"></div>
+  <div id="winner"></div>
+
+  <script>
+    // 🎯 Lista precargada de nombres
+    let names = [
+      "Laura", "Juan", "María", "Carlos", "Ana", "Pedro", "Lucía", "Martín", "Sofía", "Diego"
+    ];
+
+    let interval;
+    let rolling = false;
+    let usedNames = [];
+
+    function startRoll() {
+      if (rolling || names.length === 0) return;
+
+      document.getElementById('winner').textContent = '';
+      document.getElementById('startBtn').disabled = true;
+      document.getElementById('resetBtn').disabled = true;
+      rolling = true;
+
+      let index = 0;
+      interval = setInterval(() => {
+        index = Math.floor(Math.random() * names.length);
+        document.getElementById('rolling').textContent = names[index];
+      }, 100);
+
+      // Detener el sorteo después de unos segundos
+      setTimeout(() => {
+        clearInterval(interval);
+        const winner = names[index];
+        document.getElementById('rolling').textContent = '';
+        document.getElementById('winner').textContent = `🎉 Ganador: ${winner}`;
+        usedNames.push(winner);
+
+        // Eliminar ganador de la lista si no quieres que se repita
+        names.splice(index, 1);
+
+        rolling = false;
+        if (names.length > 0) {
+          document.getElementById('resetBtn').disabled = false;
+        } else {
+          document.getElementById('resetBtn').disabled = true;
+          document.getElementById('startBtn').disabled = true;
+        }
+      }, 3000);
+    }
+
+    function resetRoll() {
+      document.getElementById('winner').textContent = '';
+      document.getElementById('resetBtn').disabled = true;
+      document.getElementById('startBtn').disabled = false;
+    }
+  </script>
+
+</body>
+</html>
