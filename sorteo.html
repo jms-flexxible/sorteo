@@ -5,18 +5,23 @@
   <title>Sorteo Rápido</title>
   <link href="https://fonts.googleapis.com/css2?family=Baloo+2&family=Nunito+Sans:wght@400;700&display=swap" rel="stylesheet">
   <style>
+    
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%; 
+      background: #171717;
+      color: #ffffff;
+    }
+
     body {
       font-family: 'Nunito Sans', sans-serif;
       text-align: center;
-      margin: 0;
-      padding: 0;
-      background: #171717;
-      color: #ffffff;
-      min-height: 100vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center; 
+      min-height: 100%; 
     }
 
     #logo {
@@ -51,10 +56,15 @@
       filter: blur(10px);
     }
 
+    /* Estilo para los botones */
+    .button-container {
+      display: flex;
+      gap: 15px; 
+    }
+
     button {
       padding: 12px 25px;
       font-size: 16px;
-      margin: 10px;
       cursor: pointer;
       background-color: #F35623;
       border: none;
@@ -84,13 +94,15 @@
 
   <h1>¡Suerte!</h1>
 
-  <button onclick="startRoll()" id="startBtn">
-    🎲 Iniciar Sorteo
-  </button>
+  <div class="button-container">
+    <button onclick="startRoll()" id="startBtn">
+      🎲 Iniciar Sorteo
+    </button>
 
-  <button onclick="resetRoll()" id="resetBtn" disabled>
-    🔁 Sortear de Nuevo
-  </button>
+    <button onclick="resetRoll()" id="resetBtn" disabled>
+      🔁 Sortear de Nuevo
+    </button>
+  </div>
 
   <div id="rolling" class="blur"></div>
   <div id="winner"></div>
